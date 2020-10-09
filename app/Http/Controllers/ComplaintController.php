@@ -34,11 +34,11 @@ class ComplaintController extends Controller
         }
 
         if (Auth::user()->type != UserType::STUDENT) {
-            $validator->errors()->add('submitted_by', 'Only users of  type STUDENT can submit complaints');
+            $validator->errors()->add('submitted_by', 'Only users of type STUDENT can submit complaints');
             return response()->json(['errors' => $validator->errors()]);
         }
 
-        $request->submitted_by = Auth::user()->type;
+        $request->submitted_by = Auth::user()->id;
 
         $complaint = Complaint::create($request->all());
         return response()->json($complaint, 201);
@@ -61,11 +61,11 @@ class ComplaintController extends Controller
         }
 
         if (Auth::user()->type != UserType::STUDENT) {
-            $validator->errors()->add('submitted_by', 'The submitted_by user must be of type STUDENT');
+            $validator->errors()->add('submitted_by', 'Only users of type STUDENT can submit complaints');
             return response()->json(['errors' => $validator->errors()]);
         }
 
-        $request->submitted_by = Auth::user()->type;
+        $request->submitted_by = Auth::user()->id;
 
         $complaint->update($request->all());
         return $complaint;
